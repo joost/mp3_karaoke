@@ -3,9 +3,9 @@ const playPauseButton = document.getElementById('play-pause-button');
 const lyricsElement = document.getElementById('lyrics');
 
 const lyrics = [
-  { time: 5, text: 'Acht jaar geleden, je was een uk' },
-  { time: 12, text: 'Je speelde nog met poppen' },
-  { time: 14, text: 'Bouwde graag of maakte stuk' },
+  { time: 3, text: 'Acht jaar geleden, je was een uk' },
+  { time: 10, text: 'Je speelde nog met poppen' },
+  { time: 15, text: 'Bouwde graag of maakte stuk' },
   { time: 20, text: 'In de zandbak, het speelkwartier' },
   { time: 25, text: 'En dan rennen op het plein' },
   { time: 30, text: 'Wat had je dan plezier' },
@@ -52,7 +52,8 @@ function displayLyrics() {
     const { time, text } = lyrics[currentLineIndex];
     lyricsElement.textContent = text;
     currentLineIndex++;
-    pauseTimeRemaining = (time - audio.currentTime) * 1000;
+    const nextLineTime = currentLineIndex < lyrics.length ? lyrics[currentLineIndex].time : audio.duration;
+    pauseTimeRemaining = (nextLineTime - audio.currentTime) * 1000;
     pauseTimeout = setTimeout(displayLyrics, pauseTimeRemaining);
   }
 }
@@ -77,5 +78,12 @@ function togglePlayPause() {
     }
   }
 }
+
+audio.addEventListener('timeupdate', () => {
+  if (currentLineIndex < lyrics.length && audio.currentTime >= lyrics[currentLineIndex].time) {
+    lyricsElement.textContent = lyrics[currentLineIndex].text;
+    currentLineIndex++;
+  }
+});
 
 playPauseButton.addEventListener('click', togglePlayPause);
