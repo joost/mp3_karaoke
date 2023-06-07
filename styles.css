@@ -19,7 +19,7 @@
   text-align: center;
   white-space: nowrap; /* Added to keep lyrics on one line */
   overflow: hidden; /* Added to hide overflowing lyrics */
-  animation: karaoke 4s linear infinite;
+  /* animation: karaoke 4s linear infinite; */
 }
 
 @keyframes karaoke {
