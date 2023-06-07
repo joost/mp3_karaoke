@@ -1,11 +1,11 @@
 const audio = document.getElementById('audio');
-const playButton = document.getElementById('play-button');
+const playPauseButton = document.getElementById('play-pause-button');
 const lyricsElement = document.getElementById('lyrics');
 
 const lyrics = [
-  { time: 3, text: 'Acht jaar geleden, je was een uk' },
-  { time: 10, text: 'Je speelde nog met poppen' },
-  { time: 15, text: 'Bouwde graag of maakte stuk' },
+  { time: 5, text: 'Acht jaar geleden, je was een uk' },
+  { time: 12, text: 'Je speelde nog met poppen' },
+  { time: 14, text: 'Bouwde graag of maakte stuk' },
   { time: 20, text: 'In de zandbak, het speelkwartier' },
   { time: 25, text: 'En dan rennen op het plein' },
   { time: 30, text: 'Wat had je dan plezier' },
@@ -43,20 +43,39 @@ const lyrics = [
 
 let currentLineIndex = 0;
 let isPlaying = false;
+let isPaused = false;
+let pauseTimeRemaining = 0;
+let pauseTimeout;
 
 function displayLyrics() {
-  if (currentLineIndex < lyrics.length) {
+  if (currentLineIndex < lyrics.length && !isPaused) {
     const { time, text } = lyrics[currentLineIndex];
     lyricsElement.textContent = text;
     currentLineIndex++;
-    setTimeout(displayLyrics, (time - audio.currentTime) * 1000);
+    pauseTimeRemaining = (time - audio.currentTime) * 1000;
+    pauseTimeout = setTimeout(displayLyrics, pauseTimeRemaining);
   }
 }
 
-playButton.addEventListener('click', () => {
+function togglePlayPause() {
   if (!isPlaying) {
     audio.play();
     isPlaying = true;
     displayLyrics();
+    playPauseButton.textContent = 'Pause';
+  } else {
+    if (isPaused) {
+      audio.play();
+      isPaused = false;
+      setTimeout(displayLyrics, pauseTimeRemaining);
+      playPauseButton.textContent = 'Pause';
+    } else {
+      audio.pause();
+      isPaused = true;
+      clearTimeout(pauseTimeout);
+      playPauseButton.textContent = 'Play';
+    }
   }
-});
+}
+
+playPauseButton.addEventListener('click', togglePlayPause);
