@@ -1,26 +1,27 @@
 const audio = document.getElementById('audio');
 const playPauseButton = document.getElementById('play-pause-button');
 const lyricsElement = document.getElementById('lyrics');
+const currentTimeElement = document.getElementById('current-time');
 
 const lyrics = [
   { time: 3, text: 'Acht jaar geleden, je was een uk' },
-  { time: 10, text: 'Je speelde nog met poppen' },
-  { time: 15, text: 'Bouwde graag of maakte stuk' },
-  { time: 20, text: 'In de zandbak, het speelkwartier' },
-  { time: 25, text: 'En dan rennen op het plein' },
-  { time: 30, text: 'Wat had je dan plezier' },
-  { time: 36, text: 'Klaar voor de stap, jij wilt gaan!' },
-  { time: 43, text: 'Wat verder fietsen, dat dan wel' },
-  { time: 49, text: 'Nieuwe vrienden, nieuwe vakken' },
-  { time: 55, text: 'Een nieuw lokaal bij elke bel, elke bel, elke bel' },
-  { time: 64, text: 'De PMS, het zit erop' },
-  { time: 71, text: 'Nog een laatste feestje en ook dat was top' },
-  { time: 79, text: 'PMS, het zit erop' },
-  { time: 86, text: 'Nog een laatste feestje en dat was ook top' },
-  { time: 92, text: 'Verkeersexamen, daarvoor geslaagd' },
-  { time: 99, text: 'De muren hebben oren en toen heb je veel gevraagd' },
-  { time: 107, text: 'Atelier middag, weer wat nieuws' },
-  { time: 114, text: 'En veel avonden met Spelkring' },
+  { time: 9, text: 'En je speelde nog met poppen' },
+  { time: 11, text: 'Bouwde graag of maakte stuk' },
+  { time: 14, text: 'In de zandbak, het speelkwartier' },
+  { time: 19, text: 'En dan rennen op het plein' },
+  { time: 21, text: 'Wat had je dan plezier' },
+  { time: 24, text: 'Klaar voor de stap, jij wilt gaan!' },
+  { time: 27, text: 'Wat verder fietsen, dat dan wel' },
+  { time: 30, text: 'Nieuwe vrienden, nieuwe vakken' },
+  { time: 32, text: 'Een nieuw lokaal bij elke bel, elke bel, elke bel' },
+  { time: 39, text: 'De PMS, het zit erop' },
+  { time: 44, text: 'Nog een laatste feestje en ook dat was top' },
+  { time: 49, text: 'PMS, het zit erop' },
+  { time: 54, text: 'Nog een laatste feestje en ook dat was top' },
+  { time: 58, text: 'Verkeersexamen, daarvoor geslaagd' },
+  { time: 63, text: 'De muren hebben oren en toen heb je veel gevraagd' },
+  { time: 67, text: 'Atelier middag, weer wat nieuws' },
+  { time: 73, text: 'En veel avonden met Spelkring' },
   { time: 122, text: 'Creativiteit is hier een ding' },
   { time: 129, text: 'Het leukste was wel de week op kamp' },
   { time: 136, text: 'Buiten zijn en Snakie voeren' },
@@ -38,7 +39,7 @@ const lyrics = [
   { time: 224, text: 'De PMS, het zit erop' },
   { time: 231, text: 'Nog een laatste feestje en ook dat was top' },
   { time: 239, text: 'PMS, het zit erop' },
-  { time: 245, text: 'Nog een laatste feestje en dat was ook top' },
+  { time: 245, text: 'Nog een laatste feestje en dat was ook top' },  // ... other lyrics lines
 ];
 
 let currentLineIndex = 0;
@@ -80,10 +81,23 @@ function togglePlayPause() {
 }
 
 audio.addEventListener('timeupdate', () => {
-  if (currentLineIndex < lyrics.length && audio.currentTime >= lyrics[currentLineIndex].time) {
+  currentTime = audio.currentTime;
+  console.log(currentTime);
+  if (currentLineIndex < lyrics.length && currentTime >= lyrics[currentLineIndex].time) {
     lyricsElement.textContent = lyrics[currentLineIndex].text;
     currentLineIndex++;
   }
+  currentTimeElement.textContent = formatTime(currentTime);
 });
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${padZero(minutes)}:${padZero(seconds)}`;
+}
+
+function padZero(number) {
+  return number.toString().padStart(2, '0');
+}
 
 playPauseButton.addEventListener('click', togglePlayPause);
