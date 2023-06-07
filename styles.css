@@ -5,22 +5,20 @@
   height: 100vh;
 }
 
-#video {
-  margin-bottom: 16px;
-}
-
 #play-button {
   padding: 8px 16px;
   font-size: 16px;
   background-color: #ccc;
   border: none;
   cursor: pointer;
+  margin-bottom: 16px;
 }
 
 #lyrics {
-  margin-top: 16px;
   font-size: 24px;
   text-align: center;
+  white-space: nowrap; /* Added to keep lyrics on one line */
+  overflow: hidden; /* Added to hide overflowing lyrics */
   animation: karaoke 4s linear infinite;
 }
 

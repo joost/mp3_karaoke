@@ -48,7 +48,15 @@ let index = 0;
 let isPlaying = false;
 
 function displayLyrics() {
-  lyricsElement.textContent = lyricsArray[index];
+  const currentLine = lyricsArray[index];
+  lyricsElement.textContent = '';
+  
+  for (let i = 0; i < currentLine.length; i++) {
+    const span = document.createElement('span');
+    span.textContent = currentLine[i];
+    lyricsElement.appendChild(span);
+  }
+  
   index = (index + 1) % lyricsArray.length;
   setTimeout(displayLyrics, 2000); // Adjust the delay as needed
 }
