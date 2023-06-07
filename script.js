@@ -49,16 +49,21 @@ let isPlaying = false;
 
 function displayLyrics() {
   const currentLine = lyricsArray[index];
-  lyricsElement.textContent = '';
-  
-  for (let i = 0; i < currentLine.length; i++) {
-    const span = document.createElement('span');
-    span.textContent = currentLine[i];
-    lyricsElement.appendChild(span);
-  }
-  
-  index = (index + 1) % lyricsArray.length;
-  setTimeout(displayLyrics, 2000); // Adjust the delay as needed
+  lyricsElement.innerHTML = '';
+
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < currentLine.length) {
+      const span = document.createElement('span');
+      span.textContent = currentLine[i];
+      lyricsElement.appendChild(span);
+      i++;
+    } else {
+      clearInterval(interval);
+      index = (index + 1) % lyricsArray.length;
+      setTimeout(displayLyrics, 2000); // Adjust the delay as needed
+    }
+  }, 200); // Adjust the delay as needed
 }
 
 playButton.addEventListener('click', () => {
