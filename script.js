@@ -22,41 +22,50 @@ const lyrics = [
   { time: 63, text: 'De muren hebben oren en toen heb je veel gevraagd' },
   { time: 67, text: 'Atelier middag, weer wat nieuws' },
   { time: 73, text: 'En veel avonden met Spelkring' },
-  { time: 122, text: 'Creativiteit is hier een ding' },
-  { time: 129, text: 'Het leukste was wel de week op kamp' },
-  { time: 136, text: 'Buiten zijn en Snakie voeren' },
-  { time: 142, text: 'Het Woldhuis was een avontuur' },
-  { time: 149, text: 'Hout verzam’len voor het grootste vuur, grootste vuur' },
-  { time: 157, text: 'De PMS, het zit erop' },
-  { time: 163, text: 'Nog een laatste feestje en ook dat was top' },
-  { time: 170, text: 'PMS, het zit erop' },
-  { time: 176, text: 'Nog een laatste feestje en dat was ook top' },
-  { time: 190, text: 'Het was een feestje, het was een feest' },
-  { time: 196, text: 'Vossenjacht en het ouderspel' },
-  { time: 202, text: 'En het gala in mooie kleren' },
-  { time: 208, text: 'Musical spelen voor groot publiek' },
-  { time: 215, text: 'Afscheid nemen van je vrienden, van je vrienden' },
-  { time: 224, text: 'De PMS, het zit erop' },
-  { time: 231, text: 'Nog een laatste feestje en ook dat was top' },
-  { time: 239, text: 'PMS, het zit erop' },
-  { time: 245, text: 'Nog een laatste feestje en dat was ook top' },  // ... other lyrics lines
+  { time: 75, text: 'Creativiteit is hier een ding' },
+  { time: 78, text: 'Het leukste was wel de week op kamp' },
+  { time: 81, text: 'Buiten zijn en Snakie voeren' },
+  { time: 83, text: 'Het Woldhuis was een avontuur' },
+  { time: 86, text: 'Hout verzam’len voor het grootste vuur, grootste vuur' },
+  { time: 93, text: 'De PMS, het zit erop' },
+  { time: 98, text: 'Nog een laatste feestje en ook dat was top' },
+  { time: 103, text: 'PMS, het zit erop' },
+  { time: 108, text: 'Nog een laatste feestje en dat was ook top' },
+  { time: 112, text: 'Het was een feestje, het was een feest' },
+  { time: 121, text: 'Vossenjacht en het ouderspel' },
+  { time: 126, text: 'En het gala in mooie kleren' },
+  { time: 128, text: 'Musical spelen voor groot publiek' },
+  { time: 131, text: 'Afscheid nemen van je vrienden, van je vrienden' },
+  { time: 148, text: 'De PMS, het zit erop' },
+  { time: 153, text: 'Nog een laatste feestje en ook dat was top' },
+  { time: 158, text: 'PMS, het zit erop' },
+  { time: 162, text: 'Nog een laatste feestje en dat was ook top' }
 ];
 
-let currentLineIndex = 0;
 let isPlaying = false;
 let isPaused = false;
-let pauseTimeRemaining = 0;
+let currentLyricIndex = -1;
 let pauseTimeout;
 
 function displayLyrics() {
-  if (currentLineIndex < lyrics.length && !isPaused) {
-    const { time, text } = lyrics[currentLineIndex];
-    lyricsElement.textContent = text;
-    currentLineIndex++;
-    const nextLineTime = currentLineIndex < lyrics.length ? lyrics[currentLineIndex].time : audio.duration;
-    pauseTimeRemaining = (nextLineTime - audio.currentTime) * 1000;
-    pauseTimeout = setTimeout(displayLyrics, pauseTimeRemaining);
+  if (!isPaused) {
+    const currentTime = audio.currentTime;
+    const lyricIndex = findCurrentLyricIndex(currentTime);
+    if (lyricIndex !== -1 && lyricIndex !== currentLyricIndex) {
+      currentLyricIndex = lyricIndex;
+      lyricsElement.textContent = lyrics[currentLyricIndex].text;
+    }
+    pauseTimeout = requestAnimationFrame(displayLyrics);
   }
+}
+
+function findCurrentLyricIndex(currentTime) {
+  for (let i = lyrics.length - 1; i >= 0; i--) {
+    if (currentTime >= lyrics[i].time) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 function togglePlayPause() {
@@ -69,25 +78,19 @@ function togglePlayPause() {
     if (isPaused) {
       audio.play();
       isPaused = false;
-      setTimeout(displayLyrics, pauseTimeRemaining);
+      displayLyrics();
       playPauseButton.textContent = 'Pause';
     } else {
       audio.pause();
       isPaused = true;
-      clearTimeout(pauseTimeout);
+      cancelAnimationFrame(pauseTimeout);
       playPauseButton.textContent = 'Play';
     }
   }
 }
 
 audio.addEventListener('timeupdate', () => {
-  currentTime = audio.currentTime;
-  console.log(currentTime);
-  if (currentLineIndex < lyrics.length && currentTime >= lyrics[currentLineIndex].time) {
-    lyricsElement.textContent = lyrics[currentLineIndex].text;
-    currentLineIndex++;
-  }
-  currentTimeElement.textContent = formatTime(currentTime);
+  currentTimeElement.textContent = formatTime(audio.currentTime);
 });
 
 function formatTime(time) {
