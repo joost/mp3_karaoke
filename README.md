@@ -18,4 +18,4 @@ MP3 Karaoke is a web-based karaoke player that allows you to display lyrics sync
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/joost/mp3-karaoke.git
+   git clone https://github.com/joost/mp3_karaoke.git
