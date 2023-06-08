@@ -6,12 +6,20 @@ body {
 }
 
 .container {
-  margin: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#lyrics {
+  font-size: 34px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 #buttons {
@@ -20,27 +28,17 @@ body {
   justify-content: center;
   flex-direction: column;
   margin-top: 20px;
-  width: 100%;
-}
-
-#lyrics {
-  font-size: 40px;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-  padding: 20px;
-  background-color: transparent;
 }
 
 #play-pause-button {
   background-color: #333;
   color: #fff;
-  font-size: 24px;
+  font-size: 40px;
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-right: 10px;
+  margin: 10px;
   transition: background-color 0.3s ease;
 }
 
@@ -49,6 +47,7 @@ body {
 }
 
 #current-time {
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
   color: #777;
 }
