@@ -1,53 +1,63 @@
-body {
-  background-color: #f4f4f4;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 20px;
+/* Universal box-sizing */
+* {
   box-sizing: border-box;
 }
 
-#lyrics {
-  font-size: 34px;
+/* Reset body margins and padding */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Style and center the container */
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
 }
 
-#buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 20px;
+/* Style the audio player */
+#audio {
+  width: 100%;
 }
 
+/* Button styles */
 #play-pause-button {
-  background-color: #333;
-  color: #fff;
-  font-size: 40px;
-  padding: 12px 24px;
+  display: block;
+  margin: 20px auto;
+  padding: 30px; /* Increased padding */
+  font-size: 3rem; /* Increased font size */
+  background-color: #007BFF;
+  color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 10px;
-  transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
-#play-pause-button:hover {
-  background-color: #555;
+/* Lyrics and current time styles */
+#lyrics {
+  font-size: 4.5rem; /* Increased font size */
+  text-align: center;
+  padding: 10px;
 }
 
 #current-time {
-  font-size: 16px;
-  font-weight: bold;
-  color: #777;
+  font-size: 2em;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Mobile styles */
+
+@media (max-width: 600px) {
+  #play-pause-button {
+    padding: 40px; /* Increased padding */
+    font-size: 3rem; /* Increased font size */
+  }
+
+  #lyrics {
+    font-size: 5vw; /* Increased font size */
+  }
 }
